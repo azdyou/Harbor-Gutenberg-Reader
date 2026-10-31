@@ -1,58 +1,93 @@
 # Harbor Everything Hub
 
-A collection of independent Harbor-native source extensions. The same GitHub repository hosts two manifests because Harbor has separate manga and ebook extension managers.
+A collection of independent Harbor-compatible sources and category guides, inspired by the FMHY directory. The project keeps the native reader formats separate because Harbor uses different extension systems for manga and ebooks.
 
-## Install the manga and comics repository
+## Manga, manhwa, comics, and webcomics
 
-In Harbor, open **Manga → Extensions → Add Repository** and paste:
+In Harbor, open **Manga → Set up a source → Extensions → Add Repository** and paste:
 
 \`https://raw.githubusercontent.com/azdyou/Harbor-Gutenberg-Reader/main/repo.json\`
 
-Available entries:
-- **MangaDex (English)** — MangaDex search, metadata, English chapter lists, and page reader.
-- **Team-X (Arabic)** — Arabic manga source.
-- **3asq (Arabic)** — Arabic manga source.
-- **AzoraFly (Arabic)** — Arabic manga/manhwa source.
-- **Internet Archive — Open Comics (Experimental)** — attempts to list items with public-domain or Creative Commons BY/BY-SA rights metadata. Archive page-image delivery varies by item and is not guaranteed.
+Current sources:
+- MangaDex (English)
+- Team-X (Arabic)
+- 3asq (Arabic)
+- AzoraFly (Arabic)
+- Internet Archive — Open Comics (experimental)
+- xkcd — official creator-published webcomic archive
 
-## Install the ebook repository
+### Existing community Harbor manga projects
 
-Harbor has a separate ebook extension manager. In **eBooks → Sources/Extensions → Add Repository**, paste:
+These projects already publish Harbor-compatible manifests. You can add them directly in Harbor rather than duplicating their code into this repository:
+- [Kirilax/harbor-weebcentral](https://github.com/Kirilax/harbor-weebcentral) — WeebCentral, MangaDex Manhwa, MangaKatana and Atsu.
+- [Amedo-0/harbor-manga-sources](https://github.com/Amedo-0/harbor-manga-sources) — English and Arabic sources including MangaPill, Manganato, Webtoons and others. Some sources are experimental or scrape third-party aggregators; check site terms and local law.
+- [Dostovinchi/harbor-arabic-manga-sources](https://github.com/Dostovinchi/harbor-arabic-manga-sources) — Arabic sources including 3asq, MangaSwat, Dilar and Arabic MangaDex.
+
+We do not copy third-party code into this repository unless its license permits redistribution and its behavior is suitable. Use the upstream repository's own manifest for sources not bundled here.
+
+## eBooks and web fiction
+
+Harbor's ebook source manager uses a separate manifest. In **eBooks → Sources/Extensions → Add Repository**, paste:
 
 \`https://raw.githubusercontent.com/azdyou/Harbor-Gutenberg-Reader/main/ebook-repo.json\`
 
-Available entries:
-- **Project Gutenberg** — public-domain books with full text where a plain-text edition exists.
-- **Wikisource** — public-domain/freely licensed texts with section/chapter navigation.
-- **Google Books** — discovery, metadata, and Google-authorized previews only. It does not unlock copyrighted full books.
+Current sources:
+- **Project Gutenberg** — public-domain books, full text where a plain-text edition exists.
+- **Wikisource** — public-domain/freely licensed texts and section navigation.
+- **Google Books** — catalogue and publisher-authorized previews only.
+- **Royal Road** — creator-published web fiction and publicly readable chapters. Premium or locked content is not accessed.
+- **Open Library** — book discovery, metadata, and official read/borrow links. Lending restrictions are respected.
 
-## Why searching for The Witcher showed no chapters
+### The Witcher example
 
-Project Gutenberg only carries books that are available in its catalogue, primarily older public-domain titles. It does not provide the modern copyrighted Witcher novels. Google Books can find Witcher editions and display whatever preview Google/publishers permit in Morocco, but it cannot provide full chapters when those are not authorized.
+Project Gutenberg does not carry modern copyrighted Witcher novels. Google Books and Open Library can locate editions and show official previews or library access information, but cannot provide full text unless the rights holder or library makes it available.
 
-For a copyrighted book, a source can provide metadata, official previews, library/publisher links, or authorized open access. It cannot legitimately fetch the complete book just because the title appears in search results.
+## Other FMHY categories: what Harbor can and cannot host
 
-## Streaming and games
+FMHY is a directory of many kinds of websites, not a single extension API. A website being listed there does not mean it can become a Harbor reader source.
 
-Harbor's regular **Stremio Addons** section uses the Stremio addon protocol, not the manga or ebook plugin API. Use Harbor's built-in addon catalogue or a Stremio addon manifest there. Those manifests cannot be mixed into the manga/ebook source manifests.
+| Category | Harbor integration |
+|---|---|
+| Manga / manhwa | Native Manga source plugins |
+| Comics / webcomics | Native Manga source when chapter/page reader fits |
+| eBooks / web novels | Native ebook source plugins |
+| Movies / TV / anime | Stremio addons in Harbor's separate Stremio Addons section |
+| Music / podcasts / audiobooks | No matching reader interface confirmed; can add official catalog or website links |
+| Games | No native game-library source interface confirmed; can add game metadata/catalog integrations only if Harbor supports an appropriate view |
+| Software / apps / tools | Not reader plugins; keep as curated official links, never repackaged installers |
+| Cloud storage / file hosting | Not reader plugins; use supported external integrations rather than scraping file hosts |
+| VPN / privacy / security | Not media sources; list official providers and documentation only |
 
-Game information is a different category again: Harbor does not currently expose a native game-library or game-streaming extension interface matching these reader plugins. Game catalogs can be offered as web links or metadata integrations, not installed as a manga/ebook reader.
+### Streaming
 
-## Important notes
+Do not paste a manga or ebook repository URL into Harbor's Stremio addon manager. Stremio addons use a different manifest/protocol. Use the addon manager's own compatible addon manifests and respect each provider's licensing and access terms. This repository does not scrape or redistribute copyrighted video.
 
-- These extensions are independent community code; websites can change and sources may temporarily fail.
-- This repository does not host copyrighted books, manga, comics, or video.
-- No extension bypasses a login, DRM, paid chapter, library loan, or other access restriction.
-- Internet Archive comic integration is experimental and should be treated as such until tested in Harbor with multiple archive items.
-- Project Gutenberg public-domain status is assessed under US law; rights can differ by country.
-- To update an installed plugin, Harbor may cache the source version. If a new version does not appear, remove the old extension/repository entry and add it again.
+### Games
 
-## Source repositories
+Harbor does not currently expose a native game-library plugin interface matching its reader source API. A future game discovery catalog could use public metadata services such as IGDB (requires a developer account) or RAWG (requires an API key), but that would be a separate integration and not a manga/ebook extension.
+
+## Responsible source policy
+
+- Prefer public-domain, Creative Commons, creator-published, publisher-authorized, or official APIs.
+- Do not bypass DRM, paid chapters, account restrictions, library loans, paywalls, or anti-bot protections.
+- A source may provide discovery and metadata without having rights to provide the complete work.
+- Sites can change their APIs or HTML at any time. Experimental integrations may stop working.
+- Project Gutenberg public-domain status is assessed under US law; rights may differ by country.
+- xkcd's creator license is subject to the terms on [xkcd.com/license.html](https://xkcd.com/license.html).
+
+## Repository
+
+[GitHub: azdyou/Harbor-Gutenberg-Reader](https://github.com/azdyou/Harbor-Gutenberg-Reader)
+
+## Upstream documentation and APIs
+
 - [Harbor](https://github.com/Harborofficial/Harbor)
-- [Arabic Harbor manga sources](https://github.com/ITzAkai/Manga-for-harbor)
-- [MangaDex API](https://api.mangadex.org/)
+- [FMHY](https://fmhy.net/)
+- [Gutendex](https://gutendex.com/)
 - [Project Gutenberg](https://www.gutenberg.org/)
 - [Wikisource API](https://en.wikisource.org/w/api.php)
 - [Google Books API](https://developers.google.com/books)
+- [Open Library API](https://openlibrary.org/developers/api)
+- [Royal Road](https://www.royalroad.com/)
+- [xkcd JSON API](https://xkcd.com/info.0.json)
 - [Internet Archive](https://archive.org/)
-
