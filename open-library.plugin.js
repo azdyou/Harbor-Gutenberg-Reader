@@ -44,8 +44,8 @@ function searchUrl(query, page) {
 
 const plugin = {
   id: "open-library-catalog",
-  name: "Open Library — Catalog & Borrow Links",
-  version: "1.0.0",
+  name: "Open Library — Catalogue & External Borrow Links",
+  version: "1.0.1",
 
   async popular(offset) {
     const page = Math.floor((Number(offset) || 0) / 30) + 1;
@@ -67,19 +67,14 @@ const plugin = {
     return {
       id,
       title: String(data.title || id),
-      description: [description, subjects].filter(Boolean).join("\n\n"),
+      description: [description, subjects, "Catalogue record only: this extension does not provide full-text chapters. Open the official record to check reading or borrowing availability."].filter(Boolean).join("\n\n"),
       cover: data.covers && data.covers[0] ? "https://covers.openlibrary.org/b/id/" + data.covers[0] + "-L.jpg" : undefined,
       siteUrl: API + "/works/" + id,
     };
   },
 
-  async chapters(id) {
-    return [{
-      id,
-      title: "Open Library record / Read or borrow",
-      chapter: "Catalog",
-    }];
-  },
+  // Work metadata is not chapter text. Do not invent a Catalog chapter.
+  async chapters(id) { return []; },
 
   async content(id) {
     const data = await getJson(API + "/works/" + encodeURIComponent(id) + ".json");
