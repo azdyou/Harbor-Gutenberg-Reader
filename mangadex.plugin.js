@@ -8,7 +8,7 @@ const PAGE_SIZE = 100;
 const tagsCache = { value: null };
 
 async function getJson(url) {
-  const response = await harbor.http(url, { responseType: "text" });
+  const response = await harbor.http(url, { responseType: "text", timeoutMs: 12000, headers: { "accept": "application/json" } });
   if (!response || !response.ok) throw new Error("MangaDex HTTP " + (response && response.status));
   try { return JSON.parse(response.body); }
   catch (_) { throw new Error("MangaDex returned invalid JSON."); }
@@ -41,7 +41,7 @@ function listUrl(offset, query, tagId) {
 const plugin = {
   id: "mangadex-en",
   name: "MangaDex (English)",
-  version: "1.0.0",
+  version: "1.1.0",
 
   async popular(offset, tagId) {
     const data = await getJson(listUrl(offset, "", tagId));
@@ -75,36 +75,29 @@ const plugin = {
   },
 
   async chapters(id) {
-    const out = [];
-    let offset = 0;
-    let total = Infinity;
-    while (offset < total && out.length < 1500) {
-      const url = API + "/chapter?manga=" + encodeURIComponent(id) +
-        "&translatedLanguage[]=" + LANG +
-        "&order[volume]=asc&order[chapter]=asc&limit=" + PAGE_SIZE +
-        "&offset=" + offset;
-      const data = await getJson(url);
-      const rows = data.data || [];
-      total = Number(data.total) || rows.length;
-      for (const ch of rows) {
-        const a = ch.attributes || {};
-        const pages = Number(a.pages) || 0;
-        if (!pages) continue;
-        out.push({
+    // The previous implementation paged through up to 1,500 chapters
+    // sequentially. That regularly exceeded Harbor's 25-second worker limit.
+    // Fetch a bounded set of the newest chapters in one request instead.
+    const url =
+      API + "/chapter?manga=" + encodeURIComponent(id) +
+      "&translatedLanguage[]=" + encodeURIComponent(LANG) +
+      "&order[readableAt]=desc&limit=500&offset=0";
+
+    const data = await getJson(url);
+    return (Array.isArray(data.data) ? data.data : [])
+      .filter((ch) => ch && ch.id && Number(ch.attributes && ch.attributes.pages) > 0)
+      .map((ch) => {
+        const attrs = ch.attributes || {};
+        return {
           id: ch.id,
-          chapter: a.chapter || undefined,
-          title: a.title || (a.chapter ? "Chapter " + a.chapter : "Extra chapter"),
-          volume: a.volume || undefined,
-          pages: pages,
+          chapter: attrs.chapter == null ? null : String(attrs.chapter),
+          title: attrs.title || (attrs.chapter ? "Chapter " + attrs.chapter : "Extra chapter"),
+          volume: attrs.volume == null ? null : String(attrs.volume),
+          pages: Number(attrs.pages) || 0,
           language: LANG,
-          publishAt: a.publishAt || undefined,
-        });
-      }
-      if (!rows.length) break;
-      offset += rows.length;
-      if (rows.length < PAGE_SIZE) break;
-    }
-    return out;
+          publishAt: attrs.publishAt || undefined,
+        };
+      });
   },
 
   async pageUrls(chapterId) {
