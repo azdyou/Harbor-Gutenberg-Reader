@@ -14,7 +14,7 @@
 const BASE = "https://olympustaff.com";
 
 async function getDoc(path) {
-  const res = await harbor.http(BASE + path, { responseType: "text" });
+  const res = await harbor.http(BASE + path, { responseType: "text", timeoutMs: 9000 });
   if (!res.ok) throw new Error("http " + res.status + " for " + path);
   return harbor.parseHtml(res.body);
 }
@@ -74,7 +74,7 @@ function bsToSummary(el) {
 const plugin = {
   id: "olympustaff",
   name: "Team-X",
-  version: "1.2.1",
+  version: "1.2.2",
 
   // Homepage: 40 items/page. Genre-filtered /series listing: 10 items/page.
   async popular(offset, tagId) {
@@ -150,60 +150,19 @@ const plugin = {
   // whose highest "?page=N" link is the last page. Out-of-range pages return
   // zero cards (verified), but we never request past lastPage anyway.
   async chapters(id) {
-    const seen = new Set();
-    const chapters = [];
-
-    const parseCards = (doc) => {
-      doc.querySelectorAll(".chapter-card").forEach((card) => {
-        const link = card.querySelector(".chapter-link");
-        if (!link) return;
-
-        const href = link.attr("href") || "";
-        const chapId = chapterIdFromHref(href);
-        if (!chapId || seen.has(chapId)) return;
-        seen.add(chapId);
-
-        const ts = parseInt(card.attr("data-date"), 10);
-
-        chapters.push({
-          id: chapId,
-          chapter: card.attr("data-number") || null,
-          title: card.querySelector(".chapter-title")?.text()?.trim(),
-          volume: null,
-          pages: 0,
-          language: "en",
-          publishAt: isNaN(ts)
-            ? undefined
-            : new Date(ts * 1000).toISOString(),
-        });
-      });
-    };
-
-    const first = await getDoc("/series/" + id);
-    parseCards(first);
-
-    let lastPage = 1;
-    first.querySelectorAll(".pagination a.page-link").forEach((a) => {
-      const m = (a.attr("href") || "").match(/[?&]page=(\d+)/);
-      if (m) lastPage = Math.max(lastPage, parseInt(m[1], 10));
+    const seen=new Set(), chapters=[];
+    const parseCards=(doc)=>doc.querySelectorAll(".chapter-card").forEach((card)=>{
+      const link=card.querySelector(".chapter-link"); if(!link)return;
+      const chapId=chapterIdFromHref(link.attr("href")||""); if(!chapId||seen.has(chapId))return;
+      seen.add(chapId); const ts=parseInt(card.attr("data-date"),10);
+      chapters.push({id:chapId,chapter:card.attr("data-number")||null,title:card.querySelector(".chapter-title")?.text()?.trim(),volume:null,pages:0,language:"en",publishAt:isNaN(ts)?undefined:new Date(ts*1000).toISOString()});
     });
-
-    const BATCH = 5;
-    for (let start = 2; start <= lastPage; start += BATCH) {
-      const end = Math.min(start + BATCH - 1, lastPage);
-      const docs = await Promise.all(
-        Array.from({ length: end - start + 1 }, (_, i) =>
-          getDoc("/series/" + id + "?page=" + (start + i))
-        )
-      );
-      docs.forEach(parseCards);
-    }
-
-    // Newest first; parseFloat handles decimal chapters like 61.5.
-    chapters.sort(
-      (a, b) => (parseFloat(b.chapter) || 0) - (parseFloat(a.chapter) || 0)
-    );
-
+    const first=await getDoc("/series/"+id); parseCards(first);
+    let last=1;
+    first.querySelectorAll(".pagination a.page-link").forEach(a=>{const m=(a.attr("href")||"").match(/[?&]page=(\d+)/);if(m)last=Math.max(last,parseInt(m[1],10));});
+    const end=Math.min(last,5);
+    if(end>=2){const docs=await Promise.all(Array.from({length:end-1},(_,i)=>getDoc("/series/"+id+"?page="+(i+2))));docs.forEach(parseCards);}
+    chapters.sort((a,b)=>(parseFloat(b.chapter)||0)-(parseFloat(a.chapter)||0));
     return chapters;
   },
 
