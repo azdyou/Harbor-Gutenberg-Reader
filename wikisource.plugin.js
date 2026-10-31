@@ -8,7 +8,7 @@ async function getJson(params) {
   const url = API + "?" + Object.keys(params).map((key) =>
     encodeURIComponent(key) + "=" + encodeURIComponent(params[key])
   ).join("&");
-  const response = await harbor.http(url, { responseType: "text" });
+  const response = await harbor.http(url, { responseType: "text", timeoutMs: 15000 });
   if (!response || !response.ok) throw new Error("Wikisource HTTP " + (response && response.status));
   try { return JSON.parse(response.body); }
   catch (_) { throw new Error("Wikisource returned invalid JSON."); }
@@ -22,11 +22,11 @@ function itemFromSearch(item) {
   };
 }
 
-async function parsePage(title, section) {
+async function parsePage(title, section, includeText) {
   const params = {
     action: "parse",
     page: title,
-    prop: "displaytitle|tocdata|text",
+    prop: includeText ? "displaytitle|text" : "displaytitle|tocdata",
     format: "json",
     formatversion: "2",
   };
@@ -36,9 +36,9 @@ async function parsePage(title, section) {
   return getJson(params);
 }
 
-function htmlToText(html) {
+async function htmlToText(html) {
   try {
-    const doc = harbor.parseHtml(String(html || ""));
+    const doc = await harbor.parseHtml(String(html || ""));
     const root = doc.querySelector(".mw-parser-output") || doc.querySelector("#mw-content-text") || doc.querySelector("body");
     if (root && typeof root.text === "function") {
       return root.text().replace(/\n{3,}/g, "\n\n").trim();
@@ -81,7 +81,7 @@ async function featuredTitles() {
 const plugin = {
   id: "wikisource-books",
   name: "Wikisource — Public Domain Books",
-  version: "1.0.0",
+  version: "1.0.1",
 
   async popular(offset) {
     const items = await featuredTitles();
@@ -134,9 +134,9 @@ const plugin = {
 
   async content(chapterId) {
     const target = parseId(chapterId);
-    const page = await parsePage(target.page, target.section);
+    const page = await parsePage(target.page, target.section, true);
     const html = page.parse && page.parse.text || "";
-    const text = htmlToText(html);
+    const text = await htmlToText(html);
     if (!text) throw new Error("Wikisource returned an empty chapter.");
     return { text: text };
   },
