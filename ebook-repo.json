@@ -1,0 +1,33 @@
+{
+  "name": "Harbor Everything Hub — eBooks",
+  "type": "ebook",
+  "plugins": [
+    {
+      "id": "gutenberg-books",
+      "name": "Project Gutenberg — Public Domain",
+      "version": "1.0.1",
+      "lang": "mul",
+      "nsfw": false,
+      "icon": "https://www.gutenberg.org/favicon.ico",
+      "entry": "gutenberg.plugin.js"
+    },
+    {
+      "id": "wikisource-books",
+      "name": "Wikisource — Public Domain Books",
+      "version": "1.0.0",
+      "lang": "en",
+      "nsfw": false,
+      "icon": "https://en.wikisource.org/favicon.ico",
+      "entry": "wikisource.plugin.js"
+    },
+    {
+      "id": "google-books-preview",
+      "name": "Google Books — Catalog & Previews",
+      "version": "1.0.0",
+      "lang": "mul",
+      "nsfw": false,
+      "icon": "https://books.google.com/favicon.ico",
+      "entry": "google-books.plugin.js"
+    }
+  ]
+}
