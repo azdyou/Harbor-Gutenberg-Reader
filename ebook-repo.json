@@ -1,5 +1,5 @@
 {
-  "name": "Harbor Everything Hub — eBooks",
+  "name": "Harbor Everything Hub — eBooks & Source Directory",
   "type": "ebook",
   "plugins": [
     {
@@ -46,6 +46,15 @@
       "nsfw": false,
       "icon": "https://openlibrary.org/favicon.ico",
       "entry": "open-library.plugin.js"
+    },
+    {
+      "id": "fmhy-source-directory",
+      "name": "FMHY — Source Directory (9 categories)",
+      "version": "1.0.0",
+      "lang": "mul",
+      "nsfw": false,
+      "icon": "https://fmhy.net/favicon.ico",
+      "entry": "fmhy-directory.plugin.js"
     }
   ]
 }

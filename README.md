@@ -25,6 +25,16 @@ These projects already publish Harbor-compatible manifests. You can add them dir
 
 We do not copy third-party code into this repository unless its license permits redistribution and its behavior is suitable. Use the upstream repository's own manifest for sources not bundled here.
 
+## FMHY source directory
+
+A searchable directory extension covering **Movies, TV, Anime, Books, Comics, Music, Games, Software, and Game ROM references**. Each entry shows its source type, notes, FMHY section, and provider link. It is a directory only: it does not stream, scrape, or download media.
+
+The plugin is included in the ebook extension repository below. In Harbor, open **eBooks → Sources/Extensions → Add Repository** and use:
+
+`https://raw.githubusercontent.com/azdyou/Harbor-Gutenberg-Reader/main/ebook-repo.json`
+
+If you already added this repository, refresh/update the repository to see **FMHY — Source Directory**.
+
 ## eBooks and web fiction
 
 Harbor's ebook source manager uses a separate manifest. In **eBooks → Sources/Extensions → Add Repository**, paste:
