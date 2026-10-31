@@ -1,0 +1,671 @@
+{
+  "schema_version": "1.0.0",
+  "name": "Harbor Everything Hub — Lawful Source Registry",
+  "description": "A categorized registry of public-domain, openly licensed, creator-published, publisher-authorized, and official metadata sources. This is a discovery/config registry, not a Harbor-native repository manifest.",
+  "policy": {
+    "source_policy": [
+      "Public-domain works",
+      "Openly licensed works, with license attribution and terms preserved",
+      "Creator-published works available through their official platform",
+      "Publisher-authorized previews and official library lending",
+      "Official metadata/catalogue APIs"
+    ],
+    "excluded": [
+      "Unauthorized copies of copyrighted works",
+      "Magnet links or torrent endpoints for unauthorized media",
+      "Direct-download mirrors for pirated books, comics, games, software, music, movies, or television",
+      "Scrapers that bypass DRM, paywalls, account restrictions, library loans, or anti-bot controls"
+    ],
+    "direct_download_policy": "Only use a provider's official download mechanism where the provider explicitly makes the item downloadable under stated terms.",
+    "rights_check": "Verify item-level license and territorial rights before showing or downloading full content."
+  },
+  "harbor_compatibility": {
+    "manga_extensions": "Harbor's native manga reader supports source plugins with popular/search/detail/chapters/pageUrls (and optional tags).",
+    "ebook_extensions": "Harbor's ebook reader supports ebook plugins with popular/search/detail/chapters/content, and may accept pageUrls for legacy providers.",
+    "video": "Use Harbor's regular Stremio Addons manager and Stremio addon protocol. This registry does not bundle video-stream endpoints.",
+    "unsupported_native_readers": [
+      "Audiobooks and music playback",
+      "Game libraries and game downloads",
+      "General software installers",
+      "Podcast playback",
+      "Learning/course platforms"
+    ],
+    "note": "Entries marked link_only or metadata_only are not installable Harbor source plugins."
+  },
+  "categories": [
+    {
+      "id": "ebooks",
+      "label": "Ebooks and public-domain books",
+      "media_types": [
+        "ebook",
+        "text"
+      ],
+      "integrations": [
+        {
+          "id": "gutendex",
+          "name": "Project Gutenberg via Gutendex",
+          "provider": "Project Gutenberg / Gutendex",
+          "homepage": "https://www.gutenberg.org/",
+          "endpoint": "https://gutendex.com/books/",
+          "endpoint_template": "https://gutendex.com/books/?search={query}&page={page}",
+          "access": "public_domain_catalog_and_download",
+          "integration": "harbor_ebook_plugin",
+          "auth": "none",
+          "rights": "Check territorial copyright; Gutendex/Gutenberg catalogue includes public-domain works under US law.",
+          "notes": "Prefer available EPUB or plain-text formats; retain Gutenberg attribution and terms."
+        },
+        {
+          "id": "wikisource",
+          "name": "Wikisource",
+          "provider": "Wikimedia Foundation",
+          "homepage": "https://en.wikisource.org/",
+          "endpoint": "https://en.wikisource.org/w/api.php",
+          "endpoint_template": "https://en.wikisource.org/w/api.php?action=query&list=search&srsearch={query}&format=json",
+          "access": "public_domain_or_openly_licensed_text",
+          "integration": "harbor_ebook_plugin",
+          "auth": "none",
+          "rights": "Check the license shown on each work/page.",
+          "notes": "Use the MediaWiki API; do not scrape page HTML in bulk."
+        },
+        {
+          "id": "open_library",
+          "name": "Open Library",
+          "provider": "Internet Archive / Open Library",
+          "homepage": "https://openlibrary.org/",
+          "endpoint": "https://openlibrary.org/search.json",
+          "endpoint_template": "https://openlibrary.org/search.json?q={query}&fields=key,title,author_name,first_publish_year,cover_i,availability&limit=20",
+          "access": "catalog_and_controlled_library_lending",
+          "integration": "harbor_ebook_plugin_metadata_and_official_borrow_link",
+          "auth": "none_for_catalog; library_account_may_be_required_for_borrowing",
+          "rights": "Respect lending limits, waitlists, DRM and account access.",
+          "notes": "Follow Open Library rate limits; identify the application with a User-Agent and contact address; cache results; not intended as a bulk metadata backend."
+        },
+        {
+          "id": "google_books",
+          "name": "Google Books",
+          "provider": "Google",
+          "homepage": "https://books.google.com/",
+          "endpoint": "https://www.googleapis.com/books/v1/volumes",
+          "endpoint_template": "https://www.googleapis.com/books/v1/volumes?q={query}&country=MA",
+          "access": "catalog_and_publisher_authorized_preview",
+          "integration": "harbor_ebook_plugin_metadata_and_preview_link",
+          "auth": "key_optional_or_quota_dependent",
+          "rights": "Only show pages the publisher/Google authorize for the reader's region.",
+          "notes": "Use country=MA for regional viewability checks. Never infer full-text access from a catalogue result."
+        }
+      ]
+    },
+    {
+      "id": "web_novels",
+      "label": "Web novels and creator-published fiction",
+      "media_types": [
+        "text",
+        "web_novel"
+      ],
+      "integrations": [
+        {
+          "id": "royal_road",
+          "name": "Royal Road",
+          "provider": "Royal Road",
+          "homepage": "https://www.royalroad.com/",
+          "endpoint": null,
+          "access": "creator_published_public_chapters",
+          "integration": "harbor_ebook_plugin_candidate",
+          "auth": "none_for_public_chapters; account_or_premium_may_be_required_for_some_features",
+          "rights": "Authors retain rights; use platform-authorized access only.",
+          "notes": "Do not access Premium-only chapters, drafts, or restricted endpoints. If automated access is not permitted by current terms, use the official website link."
+        },
+        {
+          "id": "scribble_hub",
+          "name": "Scribble Hub",
+          "provider": "Scribble Hub",
+          "homepage": "https://www.scribblehub.com/",
+          "endpoint": null,
+          "access": "creator_published_platform",
+          "integration": "link_only_until_authorized_api_confirmed",
+          "auth": "varies",
+          "rights": "Creator-owned works; respect platform terms and author restrictions.",
+          "notes": "No scraper endpoint is specified until an officially permitted integration is confirmed."
+        },
+        {
+          "id": "wattpad",
+          "name": "Wattpad",
+          "provider": "Wattpad",
+          "homepage": "https://www.wattpad.com/",
+          "endpoint": null,
+          "access": "creator_published_platform",
+          "integration": "link_only",
+          "auth": "account_required_for_some_content",
+          "rights": "Creator-owned works and platform licenses; do not bulk extract chapters.",
+          "notes": "Use official app/site reading links."
+        }
+      ]
+    },
+    {
+      "id": "comics_and_webcomics",
+      "label": "Comics, graphic novels and webcomics",
+      "media_types": [
+        "comic",
+        "webcomic",
+        "graphic_novel"
+      ],
+      "integrations": [
+        {
+          "id": "internet_archive_open_comics",
+          "name": "Internet Archive — rights-filtered comics",
+          "provider": "Internet Archive",
+          "homepage": "https://archive.org/",
+          "endpoint": "https://archive.org/advancedsearch.php",
+          "endpoint_template": "https://archive.org/advancedsearch.php?q=mediatype:texts+AND+subject:comics+AND+licenseurl:*publicdomain*&fl[]=identifier&fl[]=title&fl[]=creator&fl[]=licenseurl&rows=20&page=1&output=json",
+          "access": "public_domain_or_open_license_items_only",
+          "integration": "harbor_manga_reader_experimental",
+          "auth": "none_for_public_metadata; item_access_may_vary",
+          "rights": "Filter and verify the license on each individual item; do not assume all Archive.org comics are public domain.",
+          "notes": "BookReader/page-image availability and file formats vary by item."
+        },
+        {
+          "id": "comic_book_plus",
+          "name": "Comic Book Plus",
+          "provider": "Comic Book Plus",
+          "homepage": "https://comicbookplus.com/",
+          "endpoint": null,
+          "access": "public_domain_golden_age_comics_catalog",
+          "integration": "link_only_until_official_api_or_permission_confirmed",
+          "auth": "varies_by_item",
+          "rights": "Use only items explicitly identified as public domain and follow site terms.",
+          "notes": "No API endpoint is asserted here."
+        },
+        {
+          "id": "digital_comic_museum",
+          "name": "Digital Comic Museum",
+          "provider": "Digital Comic Museum",
+          "homepage": "https://digitalcomicmuseum.com/",
+          "endpoint": null,
+          "access": "public_domain_golden_age_comics_catalog",
+          "integration": "link_only_until_official_api_or_permission_confirmed",
+          "auth": "account_may_be_required",
+          "rights": "Use only items explicitly identified as public domain and follow site terms.",
+          "notes": "No API endpoint is asserted here."
+        },
+        {
+          "id": "xkcd",
+          "name": "xkcd",
+          "provider": "Randall Munroe",
+          "homepage": "https://xkcd.com/",
+          "endpoint": "https://xkcd.com/info.0.json",
+          "endpoint_template": "https://xkcd.com/{comic_number}/info.0.json",
+          "access": "creator_published_webcomic",
+          "integration": "harbor_manga_reader",
+          "auth": "none",
+          "rights": "Follow the creator's license at https://xkcd.com/license.html; not all reuse is allowed.",
+          "notes": "Official comic metadata and image URL; display attribution and license notice."
+        }
+      ]
+    },
+    {
+      "id": "manga_and_manhwa",
+      "label": "Official manga, manhwa and creator-published comics",
+      "media_types": [
+        "manga",
+        "manhwa",
+        "webtoon"
+      ],
+      "integrations": [
+        {
+          "id": "manga_plus",
+          "name": "MANGA Plus by SHUEISHA",
+          "provider": "Shueisha",
+          "homepage": "https://mangaplus.shueisha.co.jp/",
+          "endpoint": null,
+          "access": "publisher_authorized_chapters_and_previews",
+          "integration": "official_link_only",
+          "auth": "region_and_account_dependent",
+          "rights": "Publisher-controlled access; respect regional restrictions and chapter windows.",
+          "notes": "Do not scrape or mirror pages without an approved API or permission."
+        },
+        {
+          "id": "webtoon",
+          "name": "WEBTOON",
+          "provider": "WEBTOON",
+          "homepage": "https://www.webtoons.com/",
+          "endpoint": null,
+          "access": "creator_published_and_platform_licensed_comics",
+          "integration": "official_link_only",
+          "auth": "varies",
+          "rights": "Respect creator and platform terms.",
+          "notes": "No scraping endpoint asserted."
+        },
+        {
+          "id": "tapas",
+          "name": "Tapas",
+          "provider": "Tapas Media",
+          "homepage": "https://tapas.io/",
+          "endpoint": null,
+          "access": "creator_published_and_platform_licensed_comics",
+          "integration": "official_link_only",
+          "auth": "varies",
+          "rights": "Respect creator and platform terms.",
+          "notes": "No scraping endpoint asserted."
+        }
+      ]
+    },
+    {
+      "id": "audiobooks",
+      "label": "Audiobooks and spoken-word recordings",
+      "media_types": [
+        "audiobook",
+        "audio"
+      ],
+      "integrations": [
+        {
+          "id": "librivox",
+          "name": "LibriVox",
+          "provider": "LibriVox volunteers",
+          "homepage": "https://librivox.org/",
+          "endpoint": "https://librivox.org/api/feed/audiobooks/",
+          "endpoint_template": "https://librivox.org/api/feed/audiobooks/?title={query}&format=json&extended=1&limit=50&offset=0",
+          "access": "public_domain_audiobooks",
+          "integration": "external_audio_player_or_link",
+          "auth": "none",
+          "rights": "LibriVox recordings are public domain in the US; check local rights for both text and recording.",
+          "notes": "API supports title, author, genre, limit, offset, extended metadata and JSON format. Do not use Harbor's ebook text plugin interface for audio playback."
+        },
+        {
+          "id": "internet_archive_audio",
+          "name": "Internet Archive — open audio",
+          "provider": "Internet Archive",
+          "homepage": "https://archive.org/details/audio",
+          "endpoint": "https://archive.org/advancedsearch.php",
+          "endpoint_template": "https://archive.org/advancedsearch.php?q=mediatype:audio+AND+licenseurl:*publicdomain*&fl[]=identifier&fl[]=title&fl[]=creator&fl[]=licenseurl&rows=20&output=json",
+          "access": "public_domain_or_open_license_items_only",
+          "integration": "external_audio_player_or_link",
+          "auth": "none_for_public_metadata",
+          "rights": "Verify the license of every item; archive hosting alone is not permission to reuse."
+        },
+        {
+          "id": "openverse_audio",
+          "name": "Openverse Audio",
+          "provider": "Openverse",
+          "homepage": "https://openverse.org/",
+          "endpoint": "https://api.openverse.org/v1/",
+          "access": "openly_licensed_audio_discovery",
+          "integration": "metadata_and_license_aware_external_link",
+          "auth": "anonymous_access_limited; registered_token_recommended",
+          "rights": "Preserve creator attribution and comply with the individual CC/public-domain license.",
+          "notes": "Openverse terms limit pagination and prohibit scraping its dataset."
+        }
+      ]
+    },
+    {
+      "id": "movies_and_tv",
+      "label": "Movies and television",
+      "media_types": [
+        "movie",
+        "tv",
+        "documentary"
+      ],
+      "integrations": [
+        {
+          "id": "internet_archive_public_video",
+          "name": "Internet Archive — public-domain/open-license video",
+          "provider": "Internet Archive",
+          "homepage": "https://archive.org/details/movies",
+          "endpoint": "https://archive.org/advancedsearch.php",
+          "endpoint_template": "https://archive.org/advancedsearch.php?q=mediatype:movies+AND+licenseurl:*publicdomain*&fl[]=identifier&fl[]=title&fl[]=year&fl[]=licenseurl&rows=20&output=json",
+          "access": "rights_filtered_public_video",
+          "integration": "external_player_candidate",
+          "auth": "none_for_public_metadata",
+          "rights": "Check item-level license and download restrictions."
+        },
+        {
+          "id": "tvmaze",
+          "name": "TVmaze",
+          "provider": "TVmaze",
+          "homepage": "https://www.tvmaze.com/",
+          "endpoint": "https://api.tvmaze.com",
+          "endpoint_template": "https://api.tvmaze.com/search/shows?q={query}",
+          "access": "metadata_only",
+          "integration": "catalog_metadata",
+          "auth": "none_for_public_api",
+          "rights": "Metadata discovery only; TVmaze does not supply episode streams."
+        },
+        {
+          "id": "tmdb",
+          "name": "The Movie Database",
+          "provider": "TMDB",
+          "homepage": "https://www.themoviedb.org/",
+          "endpoint": "https://api.themoviedb.org/3/search/movie",
+          "endpoint_template": "https://api.themoviedb.org/3/search/movie?query={query}",
+          "access": "metadata_only",
+          "integration": "catalog_metadata",
+          "auth": "api_key_required",
+          "rights": "Metadata/images subject to TMDB terms; no video streams supplied."
+        }
+      ]
+    },
+    {
+      "id": "anime",
+      "label": "Anime discovery and official viewing",
+      "media_types": [
+        "anime",
+        "animation"
+      ],
+      "integrations": [
+        {
+          "id": "anilist",
+          "name": "AniList",
+          "provider": "AniList",
+          "homepage": "https://anilist.co/",
+          "endpoint": "https://graphql.anilist.co",
+          "access": "metadata_and_tracking",
+          "integration": "catalog_metadata",
+          "auth": "public_queries; OAuth_for_user_tracking",
+          "rights": "Discovery/tracking only; no video streams supplied."
+        },
+        {
+          "id": "crunchyroll",
+          "name": "Crunchyroll",
+          "provider": "Crunchyroll",
+          "homepage": "https://www.crunchyroll.com/",
+          "endpoint": null,
+          "access": "official_subscription_or_free_with_ads_where_offered",
+          "integration": "official_link_only",
+          "auth": "account_and_region_dependent",
+          "rights": "Use official viewing access."
+        },
+        {
+          "id": "hidive",
+          "name": "HIDIVE",
+          "provider": "AMC Networks",
+          "homepage": "https://www.hidive.com/",
+          "endpoint": null,
+          "access": "official_subscription",
+          "integration": "official_link_only",
+          "auth": "account_and_region_dependent",
+          "rights": "Use official viewing access."
+        }
+      ]
+    },
+    {
+      "id": "games",
+      "label": "Games discovery and tracking",
+      "media_types": [
+        "game",
+        "game_metadata"
+      ],
+      "integrations": [
+        {
+          "id": "steam_app_list",
+          "name": "Steam App List",
+          "provider": "Valve / Steam",
+          "homepage": "https://store.steampowered.com/",
+          "endpoint": "https://api.steampowered.com/ISteamApps/GetAppList/v2/",
+          "access": "official_catalog_metadata",
+          "integration": "external_game_catalog",
+          "auth": "none_for_app_list",
+          "rights": "Metadata only. Purchase, download, and ownership remain inside the official store."
+        },
+        {
+          "id": "igdb",
+          "name": "IGDB",
+          "provider": "Twitch",
+          "homepage": "https://www.igdb.com/",
+          "endpoint": "https://api.igdb.com/v4/games",
+          "access": "game_metadata",
+          "integration": "external_game_catalog",
+          "auth": "twitch_client_credentials_required",
+          "rights": "Metadata only; follow IGDB attribution and API terms."
+        },
+        {
+          "id": "rawg",
+          "name": "RAWG Video Games Database",
+          "provider": "RAWG",
+          "homepage": "https://rawg.io/",
+          "endpoint": "https://api.rawg.io/api/games",
+          "endpoint_template": "https://api.rawg.io/api/games?search={query}&key={USER_API_KEY}",
+          "access": "game_metadata",
+          "integration": "external_game_catalog",
+          "auth": "api_key_required",
+          "rights": "Metadata only; follow RAWG terms and attribution requirements."
+        }
+      ]
+    },
+    {
+      "id": "music",
+      "label": "Music and openly licensed audio",
+      "media_types": [
+        "music",
+        "audio"
+      ],
+      "integrations": [
+        {
+          "id": "openverse_music",
+          "name": "Openverse",
+          "provider": "Openverse",
+          "homepage": "https://openverse.org/",
+          "endpoint": "https://api.openverse.org/v1/",
+          "access": "openly_licensed_media_discovery",
+          "integration": "metadata_and_license_aware_external_link",
+          "auth": "anonymous_access_limited; registered_token_recommended",
+          "rights": "Only use works with compatible licenses; preserve attribution and license links.",
+          "notes": "Openverse API terms prohibit scraping its dataset."
+        },
+        {
+          "id": "jamendo",
+          "name": "Jamendo",
+          "provider": "Jamendo",
+          "homepage": "https://www.jamendo.com/",
+          "endpoint": "https://api.jamendo.com/v3.0/tracks/",
+          "endpoint_template": "https://api.jamendo.com/v3.0/tracks/?client_id={CLIENT_ID}&format=json&search={query}",
+          "access": "artist_published_music_with_license_metadata",
+          "integration": "external_audio_player_or_link",
+          "auth": "client_id_required",
+          "rights": "Check each track's license and permitted uses; Jamendo's licensing options vary."
+        },
+        {
+          "id": "internet_archive_music",
+          "name": "Internet Archive — open audio",
+          "provider": "Internet Archive",
+          "homepage": "https://archive.org/details/audio",
+          "endpoint": "https://archive.org/advancedsearch.php",
+          "access": "rights_filtered_audio_catalog",
+          "integration": "external_audio_player_or_link",
+          "auth": "none_for_public_metadata",
+          "rights": "Verify item-level rights."
+        }
+      ]
+    },
+    {
+      "id": "podcasts",
+      "label": "Podcasts and spoken-word feeds",
+      "media_types": [
+        "podcast",
+        "rss_audio"
+      ],
+      "integrations": [
+        {
+          "id": "user_rss",
+          "name": "User-supplied podcast RSS",
+          "provider": "Podcast publishers",
+          "homepage": null,
+          "endpoint": "{USER_SUPPLIED_RSS_FEED}",
+          "access": "publisher_supplied_feed",
+          "integration": "external_podcast_player",
+          "auth": "depends_on_feed",
+          "rights": "Respect publisher terms; private feeds may require credentials.",
+          "notes": "No universal endpoint; users supply the feed URL."
+        },
+        {
+          "id": "podcast_index",
+          "name": "Podcast Index",
+          "provider": "Podcast Index",
+          "homepage": "https://podcastindex.org/",
+          "endpoint": "https://api.podcastindex.org/api/1.0/search/byterm",
+          "endpoint_template": "https://api.podcastindex.org/api/1.0/search/byterm?q={query}",
+          "access": "podcast_discovery_metadata",
+          "integration": "external_podcast_catalog",
+          "auth": "api_key_and_secret_required",
+          "rights": "Discovery metadata and publisher RSS links only."
+        }
+      ]
+    },
+    {
+      "id": "software",
+      "label": "Software and open-source applications",
+      "media_types": [
+        "software",
+        "package"
+      ],
+      "integrations": [
+        {
+          "id": "fdroid",
+          "name": "F-Droid signed repository",
+          "provider": "F-Droid",
+          "homepage": "https://f-droid.org/",
+          "endpoint": "https://f-droid.org/repo/index-v2.json",
+          "access": "free_and_open_source_android_app_catalog",
+          "integration": "external_package_manager",
+          "auth": "none",
+          "rights": "Use signed repository metadata and verify signatures; downloads should be handled by F-Droid."
+        },
+        {
+          "id": "winget",
+          "name": "WinGet Community Repository",
+          "provider": "Microsoft / community maintainers",
+          "homepage": "https://github.com/microsoft/winget-pkgs",
+          "endpoint": "https://github.com/microsoft/winget-pkgs",
+          "access": "software_package_manifests",
+          "integration": "external_package_manager",
+          "auth": "none_for_public_manifests",
+          "rights": "Install through WinGet and verify publisher/signature; do not download arbitrary installers from scraped mirrors."
+        },
+        {
+          "id": "homebrew",
+          "name": "Homebrew Formulae",
+          "provider": "Homebrew",
+          "homepage": "https://brew.sh/",
+          "endpoint": "https://formulae.brew.sh/api/formula.json",
+          "access": "software_package_metadata",
+          "integration": "external_package_manager",
+          "auth": "none_for_public_catalog",
+          "rights": "Install through Homebrew; formula metadata is not a direct executable download service."
+        }
+      ]
+    },
+    {
+      "id": "learning_and_research",
+      "label": "Educational material and research papers",
+      "media_types": [
+        "course",
+        "textbook",
+        "research_paper"
+      ],
+      "integrations": [
+        {
+          "id": "arxiv",
+          "name": "arXiv",
+          "provider": "Cornell University / arXiv",
+          "homepage": "https://arxiv.org/",
+          "endpoint": "https://export.arxiv.org/api/query",
+          "endpoint_template": "https://export.arxiv.org/api/query?search_query=all:{query}&start=0&max_results=20",
+          "access": "open_research_preprints",
+          "integration": "metadata_and_open_paper_link",
+          "auth": "none",
+          "rights": "Check the license of each paper; preprint availability does not always imply unrestricted reuse."
+        },
+        {
+          "id": "openstax",
+          "name": "OpenStax",
+          "provider": "Rice University",
+          "homepage": "https://openstax.org/",
+          "endpoint": null,
+          "access": "openly_licensed_textbooks",
+          "integration": "official_link_only",
+          "auth": "none_for_public_books",
+          "rights": "Retain attribution and observe the license for each textbook."
+        },
+        {
+          "id": "mit_ocw",
+          "name": "MIT OpenCourseWare",
+          "provider": "Massachusetts Institute of Technology",
+          "homepage": "https://ocw.mit.edu/",
+          "endpoint": null,
+          "access": "open_course_materials",
+          "integration": "official_link_only",
+          "auth": "none_for_public_materials",
+          "rights": "Course assets can have different licenses; verify the item-level terms."
+        }
+      ]
+    },
+    {
+      "id": "magazines_and_newspapers",
+      "label": "Historical magazines, newspapers and archives",
+      "media_types": [
+        "magazine",
+        "newspaper",
+        "periodical"
+      ],
+      "integrations": [
+        {
+          "id": "loc",
+          "name": "Library of Congress",
+          "provider": "Library of Congress",
+          "homepage": "https://www.loc.gov/",
+          "endpoint": "https://www.loc.gov/search/",
+          "endpoint_template": "https://www.loc.gov/search/?q={query}&fo=json",
+          "access": "public_catalog_and_rights_labeled_digital_collections",
+          "integration": "metadata_and_official_item_link",
+          "auth": "none",
+          "rights": "Check rights-and-access notes for every item."
+        },
+        {
+          "id": "internet_archive_periodicals",
+          "name": "Internet Archive — periodicals",
+          "provider": "Internet Archive",
+          "homepage": "https://archive.org/details/magazine_rack",
+          "endpoint": "https://archive.org/advancedsearch.php",
+          "access": "catalog_and_controlled_access",
+          "integration": "metadata_and_official_item_link",
+          "auth": "none_for_public_metadata",
+          "rights": "Respect borrow-only, rights-restricted, and item-specific access conditions."
+        }
+      ]
+    },
+    {
+      "id": "art_and_open_media",
+      "label": "Openly licensed images, audio and video",
+      "media_types": [
+        "image",
+        "audio",
+        "video",
+        "art"
+      ],
+      "integrations": [
+        {
+          "id": "openverse",
+          "name": "Openverse",
+          "provider": "Openverse",
+          "homepage": "https://openverse.org/",
+          "endpoint": "https://api.openverse.org/v1/",
+          "access": "public_domain_and_open_license_search",
+          "integration": "metadata_and_license_aware_external_link",
+          "auth": "anonymous_access_limited; registered_token_recommended",
+          "rights": "Display the license, creator, source page, and attribution requirements for each result.",
+          "notes": "Not a bulk harvesting API; its terms prohibit scraping."
+        }
+      ]
+    }
+  ],
+  "source_ranking": {
+    "policy": "No popularity ranking is fabricated. Where a source lacks comparable usage or quality data, preserve it as an unranked source.",
+    "fields_for_future_evaluation": [
+      "uptime_last_30d",
+      "api_documentation_quality",
+      "license_clarity",
+      "regional_access_morocco",
+      "harbor_integration_status",
+      "chapter_or_item_completeness",
+      "rate_limit_compliance"
+    ]
+  }
+}
