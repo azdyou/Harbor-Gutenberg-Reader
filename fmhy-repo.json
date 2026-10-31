@@ -1,0 +1,15 @@
+{
+  "name": "FMHY Universal Hub",
+  "type": "ebook",
+  "plugins": [
+    {
+      "id": "fmhy-universal-hub",
+      "name": "FMHY Universal Hub — 9 Categories",
+      "version": "1.0.0",
+      "lang": "mul",
+      "nsfw": false,
+      "icon": "https://fmhy.net/favicon.ico",
+      "entry": "fmhy-universal.plugin.js"
+    }
+  ]
+}
