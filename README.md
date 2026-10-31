@@ -25,15 +25,17 @@ These projects already publish Harbor-compatible manifests. You can add them dir
 
 We do not copy third-party code into this repository unless its license permits redistribution and its behavior is suitable. Use the upstream repository's own manifest for sources not bundled here.
 
-## FMHY source directory
+## FMHY Universal Hub
 
-A searchable directory extension covering **Movies, TV, Anime, Books, Comics, Music, Games, Software, and Game ROM references**. Each entry shows its source type, notes, FMHY section, and provider link. It is a directory only: it does not stream, scrape, or download media.
+The FMHY project is a **single installable directory extension** with the current curated catalogue across nine categories: Movies, TV, Anime, Books, Comics, Music, Games, Software, and Game ROMs. Browse categories, search across names and notes, filter by source type, inspect API templates, and open provider or FMHY reference pages.
 
-The plugin is included in the ebook extension repository below. In Harbor, open **eBooks → Sources/Extensions → Add Repository** and use:
+Install the single FMHY repository in Harbor's **eBook → Sources / Extensions** manager:
 
-`https://raw.githubusercontent.com/azdyou/Harbor-Gutenberg-Reader/main/ebook-repo.json`
+`https://raw.githubusercontent.com/azdyou/Harbor-Gutenberg-Reader/main/fmhy-repo.json`
 
-If you already added this repository, refresh/update the repository to see **FMHY — Source Directory**.
+The directory currently contains **36 entries**. Its data is stored separately in `data/fmhy_sources.json`, so the catalogue can be updated without rewriting the extension.
+
+**Important:** this is one universal *directory*, not one universal media player. Harbor uses separate protocols for Stremio video add-ons, manga readers, and eBook readers. Music, games, software, and ROM references are shown as catalogued links; the extension does not claim to stream, install, or download them inside Harbor.
 
 ## eBooks and web fiction
 
