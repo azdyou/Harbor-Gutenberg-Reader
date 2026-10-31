@@ -1,0 +1,14 @@
+{
+  "name": "Harbor Gutenberg Reader",
+  "plugins": [
+    {
+      "id": "gutenberg-books",
+      "name": "Project Gutenberg Books",
+      "version": "1.0.1",
+      "lang": "mul",
+      "nsfw": false,
+      "icon": "https://www.gutenberg.org/favicon.ico",
+      "entry": "gutenberg.plugin.js"
+    }
+  ]
+}
