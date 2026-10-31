@@ -5,7 +5,7 @@
     {
       "id": "gutenberg-books",
       "name": "Project Gutenberg — Public Domain",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "lang": "mul",
       "nsfw": false,
       "icon": "https://www.gutenberg.org/favicon.ico",
@@ -14,7 +14,7 @@
     {
       "id": "wikisource-books",
       "name": "Wikisource — Public Domain Books",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "lang": "en",
       "nsfw": false,
       "icon": "https://en.wikisource.org/favicon.ico",
@@ -22,8 +22,8 @@
     },
     {
       "id": "google-books-preview",
-      "name": "Google Books — Catalog & Previews",
-      "version": "1.0.0",
+      "name": "Google Books — Catalogue & External Previews",
+      "version": "1.0.1",
       "lang": "mul",
       "nsfw": false,
       "icon": "https://books.google.com/favicon.ico",
@@ -40,8 +40,8 @@
     },
     {
       "id": "open-library-catalog",
-      "name": "Open Library — Catalog & Borrow Links",
-      "version": "1.0.0",
+      "name": "Open Library — Catalogue & External Borrow Links",
+      "version": "1.0.1",
       "lang": "mul",
       "nsfw": false,
       "icon": "https://openlibrary.org/favicon.ico",
