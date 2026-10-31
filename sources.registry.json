@@ -667,5 +667,309 @@
       "chapter_or_item_completeness",
       "rate_limit_compliance"
     ]
-  }
+  },
+  "fmhy_research": {
+    "source": "FMHY (Free Media Heck Yeah) index",
+    "reviewed_on": "2026-10-31",
+    "sections": {
+      "movies_tv": "https://fmhy.net/video",
+      "anime": "https://fmhy.net/video",
+      "books_comics": "https://fmhy.net/reading",
+      "music_audiobooks": "https://fmhy.net/audio",
+      "games_software": "https://fmhy.net/gaming-tools"
+    },
+    "entry_fields": [
+      "name",
+      "url",
+      "type",
+      "category",
+      "unofficial",
+      "notes"
+    ],
+    "allowed_types": [
+      "api",
+      "direct_download",
+      "magnet",
+      "scrape"
+    ],
+    "allowed_categories": [
+      "movies",
+      "tv",
+      "anime",
+      "books",
+      "comics",
+      "music",
+      "games",
+      "software"
+    ],
+    "scope_note": "This subset covers official APIs, public-domain/open-license catalogues, authorized previews and official package/release metadata. It excludes unauthorized copies and download/magnet endpoints.",
+    "harbor_note": "Registry candidates are not ready-made Harbor extensions. Video uses the Stremio add-on protocol; manga and ebooks require their native plugin interfaces; other types need suitable catalogues or players.",
+    "verification_note": "Provider endpoints and catalogue capabilities should be rechecked before production. This registry update does not claim live Harbor execution testing."
+  },
+  "fmhy_entries": [
+    {
+      "name": "Internet Archive — rights-filtered films",
+      "url": "https://archive.org/advancedsearch.php?q=mediatype%3Amovies+AND+licenseurl%3A%2Apublicdomain%2A&fl%5B%5D=identifier&fl%5B%5D=title&fl%5B%5D=licenseurl&rows=50&output=json",
+      "type": "api",
+      "category": "movies",
+      "unofficial": false,
+      "notes": "Public-domain-labelled catalogue search; verify each item's rights and file access."
+    },
+    {
+      "name": "TMDB movie catalogue",
+      "url": "https://api.themoviedb.org/3/search/movie?query={query}",
+      "type": "api",
+      "category": "movies",
+      "unofficial": false,
+      "notes": "Metadata API; requires an API key. No video streams."
+    },
+    {
+      "name": "Library of Congress films",
+      "url": "https://www.loc.gov/film-and-videos/?fo=json",
+      "type": "api",
+      "category": "movies",
+      "unofficial": false,
+      "notes": "Official catalogue; check item-level rights and access."
+    },
+    {
+      "name": "Openverse videos",
+      "url": "https://api.openverse.org/v1/videos/?q={query}",
+      "type": "api",
+      "category": "movies",
+      "unofficial": false,
+      "notes": "Open-license discovery; preserve attribution and license metadata."
+    },
+    {
+      "name": "TVmaze show search",
+      "url": "https://api.tvmaze.com/search/shows?q={query}",
+      "type": "api",
+      "category": "tv",
+      "unofficial": false,
+      "notes": "Official show and episode metadata API; no episode streams."
+    },
+    {
+      "name": "TMDB TV catalogue",
+      "url": "https://api.themoviedb.org/3/search/tv?query={query}",
+      "type": "api",
+      "category": "tv",
+      "unofficial": false,
+      "notes": "Metadata API; requires an API key. No episode streams."
+    },
+    {
+      "name": "AniList GraphQL",
+      "url": "https://graphql.anilist.co",
+      "type": "api",
+      "category": "anime",
+      "unofficial": false,
+      "notes": "Official anime metadata and tracking API; no video."
+    },
+    {
+      "name": "Jikan MyAnimeList API",
+      "url": "https://api.jikan.moe/v4/anime?q={query}",
+      "type": "api",
+      "category": "anime",
+      "unofficial": true,
+      "notes": "Community-built catalogue API; rate limits apply; metadata only."
+    },
+    {
+      "name": "Kitsu anime API",
+      "url": "https://kitsu.io/api/edge/anime?filter[text]={query}",
+      "type": "api",
+      "category": "anime",
+      "unofficial": false,
+      "notes": "JSON:API anime catalogue; metadata only."
+    },
+    {
+      "name": "Gutendex / Project Gutenberg",
+      "url": "https://gutendex.com/books/?search={query}&page={page}",
+      "type": "api",
+      "category": "books",
+      "unofficial": false,
+      "notes": "Public-domain catalogue and format links; check territorial copyright."
+    },
+    {
+      "name": "Project Gutenberg EPUB",
+      "url": "https://www.gutenberg.org/ebooks/{book_id}.epub.images",
+      "type": "direct_download",
+      "category": "books",
+      "unofficial": false,
+      "notes": "Official EPUB download for eligible public-domain works; retain attribution."
+    },
+    {
+      "name": "Wikisource API",
+      "url": "https://en.wikisource.org/w/api.php?action=query&list=search&srsearch={query}&format=json",
+      "type": "api",
+      "category": "books",
+      "unofficial": false,
+      "notes": "Public-domain/open-license text search; check each work's license."
+    },
+    {
+      "name": "Standard Ebooks OPDS",
+      "url": "https://standardebooks.org/opds/all",
+      "type": "api",
+      "category": "books",
+      "unofficial": false,
+      "notes": "Curated public-domain EPUB catalogue; follow book colophons and license."
+    },
+    {
+      "name": "Open Library search",
+      "url": "https://openlibrary.org/search.json?q={query}&limit=20",
+      "type": "api",
+      "category": "books",
+      "unofficial": false,
+      "notes": "Metadata and official borrow links; respect lending and DRM."
+    },
+    {
+      "name": "Google Books API",
+      "url": "https://www.googleapis.com/books/v1/volumes?q={query}&country=MA",
+      "type": "api",
+      "category": "books",
+      "unofficial": false,
+      "notes": "Metadata and authorized previews; regional availability applies."
+    },
+    {
+      "name": "LibriVox API",
+      "url": "https://librivox.org/api/feed/audiobooks/?title={query}&format=json&extended=1&limit=50&offset=0",
+      "type": "api",
+      "category": "books",
+      "unofficial": false,
+      "notes": "Public-domain audiobook catalogue and official recordings; check local rights."
+    },
+    {
+      "name": "xkcd official JSON",
+      "url": "https://xkcd.com/info.0.json",
+      "type": "api",
+      "category": "comics",
+      "unofficial": false,
+      "notes": "Official webcomic metadata; comply with creator's license and attribution."
+    },
+    {
+      "name": "Internet Archive open comics",
+      "url": "https://archive.org/advancedsearch.php?q=mediatype%3Atexts+AND+subject%3Acomics+AND+licenseurl%3A%2Apublicdomain%2A&fl%5B%5D=identifier&fl%5B%5D=title&fl%5B%5D=licenseurl&rows=50&output=json",
+      "type": "api",
+      "category": "comics",
+      "unofficial": false,
+      "notes": "Public-domain-labelled catalogue; verify item rights and reader files."
+    },
+    {
+      "name": "Library of Congress comics",
+      "url": "https://www.loc.gov/search/?q=comic+books&fo=json",
+      "type": "api",
+      "category": "comics",
+      "unofficial": false,
+      "notes": "Official catalogue; digitized full issues and rights vary."
+    },
+    {
+      "name": "MusicBrainz recordings API",
+      "url": "https://musicbrainz.org/ws/2/recording/?query={query}&fmt=json",
+      "type": "api",
+      "category": "music",
+      "unofficial": false,
+      "notes": "Official metadata API; descriptive User-Agent and rate limits required."
+    },
+    {
+      "name": "Jamendo tracks API",
+      "url": "https://api.jamendo.com/v3.0/tracks/?client_id={CLIENT_ID}&format=json&search={query}",
+      "type": "api",
+      "category": "music",
+      "unofficial": false,
+      "notes": "Artist-published music; client ID required; check each track license."
+    },
+    {
+      "name": "Spotify Web API search",
+      "url": "https://api.spotify.com/v1/search?q={query}&type=track,album,artist,playlist",
+      "type": "api",
+      "category": "music",
+      "unofficial": false,
+      "notes": "OAuth-protected catalogue metadata; not a music-file download API."
+    },
+    {
+      "name": "Openverse audio",
+      "url": "https://api.openverse.org/v1/audio/?q={query}",
+      "type": "api",
+      "category": "music",
+      "unofficial": false,
+      "notes": "Open-license audio discovery; preserve creator, source and license."
+    },
+    {
+      "name": "Internet Archive open audio",
+      "url": "https://archive.org/advancedsearch.php?q=mediatype%3Aaudio+AND+licenseurl%3A%2Apublicdomain%2A&fl%5B%5D=identifier&fl%5B%5D=title&fl%5B%5D=licenseurl&rows=50&output=json",
+      "type": "api",
+      "category": "music",
+      "unofficial": false,
+      "notes": "Public-domain-labelled audio search; verify rights per item."
+    },
+    {
+      "name": "Steam app catalogue",
+      "url": "https://api.steampowered.com/ISteamApps/GetAppList/v2/",
+      "type": "api",
+      "category": "games",
+      "unofficial": false,
+      "notes": "Official app list; acquisition and downloads require Steam entitlement."
+    },
+    {
+      "name": "IGDB games API",
+      "url": "https://api.igdb.com/v4/games",
+      "type": "api",
+      "category": "games",
+      "unofficial": false,
+      "notes": "Requires Twitch client credentials; metadata only."
+    },
+    {
+      "name": "RAWG games API",
+      "url": "https://api.rawg.io/api/games?search={query}&key={API_KEY}",
+      "type": "api",
+      "category": "games",
+      "unofficial": false,
+      "notes": "API key required; metadata and store links only."
+    },
+    {
+      "name": "GitHub open-source games search",
+      "url": "https://api.github.com/search/repositories?q=topic%3Aopen-source-game&sort=stars&order=desc",
+      "type": "api",
+      "category": "games",
+      "unofficial": false,
+      "notes": "Find source repositories; inspect project and asset licenses before use."
+    },
+    {
+      "name": "F-Droid repository index",
+      "url": "https://f-droid.org/repo/index-v2.json",
+      "type": "api",
+      "category": "software",
+      "unofficial": false,
+      "notes": "Signed Android app repository metadata; verify signatures and install through F-Droid."
+    },
+    {
+      "name": "WinGet package manifests",
+      "url": "https://github.com/microsoft/winget-pkgs",
+      "type": "api",
+      "category": "software",
+      "unofficial": false,
+      "notes": "Official package manifest repository; install with WinGet and verify publisher."
+    },
+    {
+      "name": "Homebrew Formulae API",
+      "url": "https://formulae.brew.sh/api/formula.json",
+      "type": "api",
+      "category": "software",
+      "unofficial": false,
+      "notes": "Official package metadata; install through Homebrew."
+    },
+    {
+      "name": "GitHub Releases API",
+      "url": "https://api.github.com/repos/{owner}/{repo}/releases",
+      "type": "api",
+      "category": "software",
+      "unofficial": false,
+      "notes": "Official release metadata; verify project identity, signatures and checksums."
+    },
+    {
+      "name": "Software Heritage API",
+      "url": "https://archive.softwareheritage.org/api/1/",
+      "type": "api",
+      "category": "software",
+      "unofficial": false,
+      "notes": "Source-code preservation API; check original project license."
+    }
+  ]
 }
