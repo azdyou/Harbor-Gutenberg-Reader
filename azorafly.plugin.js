@@ -21,19 +21,11 @@ const postIdCache = {};
 const coverCache = {};
 
 async function fetchText(url) {
-  let lastErr;
-  for (let i = 0; i < 3; i++) {
-    try {
-      const res = await harbor.http(url, { responseType: "text" });
-      if (res && res.ok && res.body) return res.body;
-      lastErr = new Error("http " + (res && res.status) + " for " + url);
-      if (res && res.status && res.status < 500) break;
-    } catch (e) {
-      lastErr = e;
-    }
-  }
-  throw lastErr || new Error("request failed: " + url);
+  const res=await harbor.http(url,{responseType:"text",timeoutMs:6000});
+  if(res&&res.ok&&res.body)return res.body;
+  throw new Error("http "+(res&&res.status)+" for "+url);
 }
+
 
 function parseJson(text, where) {
   try {
@@ -73,8 +65,8 @@ function summariesFromApi(data) {
 }
 
 // Fallback: parse a /series HTML listing with the JSON config's selectors.
-function summariesFromHtml(html) {
-  const doc = harbor.parseHtml(html);
+async function summariesFromHtml(html) {
+  const doc = await harbor.parseHtml(html);
   return doc
     .querySelectorAll("a.shrink-0[href^='/series/']")
     .map((a) => {
@@ -117,7 +109,7 @@ async function listVia(queryString, htmlPath) {
 const plugin = {
   id: "azorafly",
   name: "AzoraFly",
-  version: "2.1.1",
+  version: "2.2.0",
 
   async popular(offset, tagId) {
     const page = Math.floor(offset / 30) + 1;
@@ -301,7 +293,7 @@ const plugin = {
         return [];
       }
     }
-    const doc = harbor.parseHtml(html);
+    const doc = await harbor.parseHtml(html);
     const seen = {};
     const out = [];
     doc.querySelectorAll("a[href*='/chapter-']").forEach((a) => {
