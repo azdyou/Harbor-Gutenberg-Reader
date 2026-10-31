@@ -76,8 +76,8 @@ function accessMessage(volume) {
 
 const plugin = {
   id: "google-books-preview",
-  name: "Google Books — Catalog & Previews",
-  version: "1.0.0",
+  name: "Google Books — Catalogue & External Previews",
+  version: "1.0.1",
 
   async popular(offset) {
     return searchVolumes("subject:fiction", offset);
@@ -103,14 +103,8 @@ const plugin = {
     };
   },
 
-  async chapters(id) {
-    const volume = await getVolume(id);
-    const access = volume.accessInfo || {};
-    const label = access.viewability === "ALL_PAGES" ? "Open full Google Books reader" :
-      access.viewability === "PARTIAL" ? "Publisher-approved preview" :
-      "Book availability and legitimate access";
-    return [{ id: id, title: label, chapter: "Preview / access" }];
-  },
+  // Catalogue and official preview link only; no readable chapter text.
+  async chapters(id) { return []; },
 
   async content(chapterId) {
     return { text: accessMessage(await getVolume(chapterId)) };
