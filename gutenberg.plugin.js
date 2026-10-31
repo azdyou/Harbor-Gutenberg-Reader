@@ -47,7 +47,7 @@ function safeNumber(value, fallback) {
 }
 
 async function getText(url) {
-  const response = await harbor.http(url, { responseType: "text" });
+  const response = await harbor.http(url, { responseType: "text", timeoutMs: 20000 });
   if (!response || !response.ok) {
     throw new Error("Request failed (HTTP " + (response && response.status) + ")");
   }
@@ -198,7 +198,7 @@ async function getBookText(id) {
   if (textCache[key]) return textCache[key];
   const book = await getBook(key);
   const rawText = await getText(choosePlainTextUrl(book));
-  if (rawText.length > 12 * 1024 * 1024) throw new Error("This book is too large to paginate safely in Harbor (over 12 MB of text).");
+  if (rawText.length > 7 * 1024 * 1024) throw new Error("This book exceeds Harbor's 8 MB plugin response limit (over 7 MB of text).");
   const cleaned = cleanGutenbergText(rawText);
   if (!cleaned) throw new Error("The Project Gutenberg text file was empty.");
   textCache[key] = { text: cleaned, book };
@@ -208,7 +208,7 @@ async function getBookText(id) {
 const plugin = {
   id: "gutenberg-books",
   name: "Project Gutenberg Books",
-  version: "1.0.1",
+  version: "1.0.2",
   async popular(offset, tagId) {
     const page = Math.floor(safeNumber(offset, 0) / 32) + 1;
     const data = await getJson(buildQuery(page, "", tagId || ""));
@@ -245,6 +245,12 @@ const plugin = {
       pages: 0,
       language: Array.isArray(book.languages) && book.languages.length ? book.languages[0] : "mul",
     }];
+  },
+  async content(chapterId) {
+    const id=asString(chapterId).split(":")[0].trim();
+    if(!/^\d+$/.test(id))throw new Error("Invalid Project Gutenberg book ID.");
+    const loaded=await getBookText(id);
+    return {text:loaded.text};
   },
   async pageUrls(chapterId) {
     const id = asString(chapterId).split(":")[0].trim();
