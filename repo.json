@@ -1,14 +1,50 @@
 {
-  "name": "Harbor Gutenberg Reader",
+  "name": "Harbor Everything Hub — Manga & Comics",
   "plugins": [
     {
-      "id": "gutenberg-books",
-      "name": "Project Gutenberg Books",
-      "version": "1.0.1",
+      "id": "mangadex-en",
+      "name": "MangaDex (English)",
+      "version": "1.0.0",
+      "lang": "en",
+      "nsfw": false,
+      "icon": "https://mangadex.org/favicon.ico",
+      "entry": "mangadex.plugin.js"
+    },
+    {
+      "id": "olympustaff",
+      "name": "Team-X (Arabic)",
+      "version": "1.2.1",
+      "lang": "ar",
+      "nsfw": false,
+      "icon": "https://olympustaff.com/images/TeamX.png",
+      "entry": "olympustaff.plugin.js"
+    },
+    {
+      "id": "3asq",
+      "name": "مانجا العاشق (3asq)",
+      "version": "1.2.1",
+      "lang": "ar",
+      "nsfw": false,
+      "icon": "https://3asq.online/wp-content/uploads/2021/06/cropped-ICON-270x270.png",
+      "entry": "3asq.plugin.js"
+    },
+    {
+      "id": "azorafly",
+      "name": "AzoraFly",
+      "version": "2.1.1",
+      "lang": "ar",
+      "nsfw": false,
+      "icon": "https://azorafly.com/favicon.ico",
+      "entry": "azorafly.plugin.js"
+    },
+    {
+      "id": "archive-open-comics",
+      "name": "Internet Archive — Open Comics (Experimental)",
+      "version": "1.0.0",
       "lang": "mul",
       "nsfw": false,
-      "icon": "https://www.gutenberg.org/favicon.ico",
-      "entry": "gutenberg.plugin.js"
+      "icon": "https://archive.org/favicon.ico",
+      "entry": "archive-comics.plugin.js"
     }
   ]
 }
