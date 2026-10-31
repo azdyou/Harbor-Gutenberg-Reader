@@ -85,6 +85,14 @@ Harbor does not currently expose a native game-library plugin interface matching
 - Project Gutenberg public-domain status is assessed under US law; rights may differ by country.
 - xkcd's creator license is subject to the terms on [xkcd.com/license.html](https://xkcd.com/license.html).
 
+## Source loading reliability and reader limitations
+
+Harbor plugin workers have hard per-method deadlines: 20 seconds for popular/search/detail, 25 seconds for chapters, and 30 seconds for page URLs or eBook content. A timed-out method terminates its worker. Network responses are capped at 8 MB, and a plugin may have at most six in-flight requests.
+
+This update bounds 3asq chapter discovery to one AJAX request plus one fallback; limits Team-X to five recent chapter pages fetched concurrently; removes AzoraFly's repeated retries and awaits its asynchronous HTML parser; returns Gutenberg text through the eBook content() method instead of unsupported data:image SVG URLs; requests Wikisource TOC data without downloading the full work during chapter discovery; and removes fake catalogue chapters from Google Books and Open Library.
+
+Refresh the Manga and eBook repositories in Harbor to install the new plugin versions.
+
 ## Repository
 
 [GitHub: azdyou/Harbor-Gutenberg-Reader](https://github.com/azdyou/Harbor-Gutenberg-Reader)
