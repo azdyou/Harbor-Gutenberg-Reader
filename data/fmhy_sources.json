@@ -1,0 +1,455 @@
+{
+  "schema_version": "1.0.0",
+  "name": "FMHY-derived source export",
+  "generated_at": "2026-10-31",
+  "source_repository": "https://github.com/fmhy/edit",
+  "source_note": "Rights-filtered curated export; not a mirror of the complete unfiltered FMHY wiki.",
+  "upstream_files": [
+    {
+      "path": "docs/video.md",
+      "url": "https://raw.githubusercontent.com/fmhy/edit/main/docs/video.md",
+      "page": "https://fmhy.net/video",
+      "modified_at": "2026-10-31T08:34:23Z"
+    },
+    {
+      "path": "docs/reading.md",
+      "url": "https://raw.githubusercontent.com/fmhy/edit/main/docs/reading.md",
+      "page": "https://fmhy.net/reading",
+      "modified_at": "2026-10-28T15:13:33Z"
+    },
+    {
+      "path": "docs/audio.md",
+      "url": "https://raw.githubusercontent.com/fmhy/edit/main/docs/audio.md",
+      "page": "https://fmhy.net/audio",
+      "modified_at": "2026-10-31T08:34:23Z"
+    },
+    {
+      "path": "docs/gaming.md",
+      "url": "https://raw.githubusercontent.com/fmhy/edit/main/docs/gaming.md",
+      "page": "https://fmhy.net/gaming",
+      "modified_at": "2026-10-30T09:58:47Z"
+    },
+    {
+      "path": "docs/downloading.md",
+      "url": "https://raw.githubusercontent.com/fmhy/edit/main/docs/downloading.md",
+      "page": "https://fmhy.net/downloading",
+      "modified_at": "2026-10-31T08:34:23Z"
+    },
+    {
+      "path": "docs/gaming-tools.md",
+      "url": "https://raw.githubusercontent.com/fmhy/edit/main/docs/gaming-tools.md",
+      "page": "https://fmhy.net/gaming-tools",
+      "modified_at": "2026-10-30T09:58:47Z"
+    }
+  ],
+  "categories": [
+    "movies",
+    "tv",
+    "anime",
+    "books",
+    "comics",
+    "music",
+    "games",
+    "software",
+    "roms"
+  ],
+  "entry_count": 36,
+  "entries": [
+    {
+      "name": "Internet Archive — rights-filtered films",
+      "url": "https://archive.org/advancedsearch.php?q=mediatype%3Amovies+AND+licenseurl%3A%2Apublicdomain%2A&fl%5B%5D=identifier&fl%5B%5D=title&fl%5B%5D=licenseurl&rows=50&output=json",
+      "type": "api",
+      "category": "movies",
+      "unofficial": false,
+      "notes": "Public-domain-labelled catalogue search; verify each item's rights and file access.",
+      "source_page": "https://fmhy.net/video",
+      "source_file": "docs/video.md",
+      "source_modified_at": "2026-10-31T08:34:23Z"
+    },
+    {
+      "name": "TMDB movie catalogue",
+      "url": "https://api.themoviedb.org/3/search/movie?query={query}",
+      "type": "api",
+      "category": "movies",
+      "unofficial": false,
+      "notes": "Metadata API; requires an API key. No video streams.",
+      "source_page": "https://fmhy.net/video",
+      "source_file": "docs/video.md",
+      "source_modified_at": "2026-10-31T08:34:23Z"
+    },
+    {
+      "name": "Library of Congress films",
+      "url": "https://www.loc.gov/film-and-videos/?fo=json",
+      "type": "api",
+      "category": "movies",
+      "unofficial": false,
+      "notes": "Official catalogue; check item-level rights and access.",
+      "source_page": "https://fmhy.net/video",
+      "source_file": "docs/video.md",
+      "source_modified_at": "2026-10-31T08:34:23Z"
+    },
+    {
+      "name": "Openverse videos",
+      "url": "https://api.openverse.org/v1/videos/?q={query}",
+      "type": "api",
+      "category": "movies",
+      "unofficial": false,
+      "notes": "Open-license discovery; preserve attribution and license metadata.",
+      "source_page": "https://fmhy.net/video",
+      "source_file": "docs/video.md",
+      "source_modified_at": "2026-10-31T08:34:23Z"
+    },
+    {
+      "name": "TVmaze show search",
+      "url": "https://api.tvmaze.com/search/shows?q={query}",
+      "type": "api",
+      "category": "tv",
+      "unofficial": false,
+      "notes": "Official show and episode metadata API; no episode streams.",
+      "source_page": "https://fmhy.net/video",
+      "source_file": "docs/video.md",
+      "source_modified_at": "2026-10-31T08:34:23Z"
+    },
+    {
+      "name": "TMDB TV catalogue",
+      "url": "https://api.themoviedb.org/3/search/tv?query={query}",
+      "type": "api",
+      "category": "tv",
+      "unofficial": false,
+      "notes": "Metadata API; requires an API key. No episode streams.",
+      "source_page": "https://fmhy.net/video",
+      "source_file": "docs/video.md",
+      "source_modified_at": "2026-10-31T08:34:23Z"
+    },
+    {
+      "name": "AniList GraphQL",
+      "url": "https://graphql.anilist.co",
+      "type": "api",
+      "category": "anime",
+      "unofficial": false,
+      "notes": "Official anime metadata and tracking API; no video.",
+      "source_page": "https://fmhy.net/video",
+      "source_file": "docs/video.md",
+      "source_modified_at": "2026-10-31T08:34:23Z"
+    },
+    {
+      "name": "Jikan MyAnimeList API",
+      "url": "https://api.jikan.moe/v4/anime?q={query}",
+      "type": "api",
+      "category": "anime",
+      "unofficial": true,
+      "notes": "Community-built catalogue API; rate limits apply; metadata only.",
+      "source_page": "https://fmhy.net/video",
+      "source_file": "docs/video.md",
+      "source_modified_at": "2026-10-31T08:34:23Z"
+    },
+    {
+      "name": "Kitsu anime API",
+      "url": "https://kitsu.io/api/edge/anime?filter[text]={query}",
+      "type": "api",
+      "category": "anime",
+      "unofficial": false,
+      "notes": "JSON:API anime catalogue; metadata only.",
+      "source_page": "https://fmhy.net/video",
+      "source_file": "docs/video.md",
+      "source_modified_at": "2026-10-31T08:34:23Z"
+    },
+    {
+      "name": "Gutendex / Project Gutenberg",
+      "url": "https://gutendex.com/books/?search={query}&page={page}",
+      "type": "api",
+      "category": "books",
+      "unofficial": false,
+      "notes": "Public-domain catalogue and format links; check territorial copyright.",
+      "source_page": "https://fmhy.net/reading",
+      "source_file": "docs/reading.md",
+      "source_modified_at": "2026-10-28T15:13:33Z"
+    },
+    {
+      "name": "Project Gutenberg EPUB",
+      "url": "https://www.gutenberg.org/ebooks/{book_id}.epub.images",
+      "type": "direct_download",
+      "category": "books",
+      "unofficial": false,
+      "notes": "Official EPUB download for eligible public-domain works; retain attribution.",
+      "source_page": "https://fmhy.net/reading",
+      "source_file": "docs/reading.md",
+      "source_modified_at": "2026-10-28T15:13:33Z"
+    },
+    {
+      "name": "Wikisource API",
+      "url": "https://en.wikisource.org/w/api.php?action=query&list=search&srsearch={query}&format=json",
+      "type": "api",
+      "category": "books",
+      "unofficial": false,
+      "notes": "Public-domain/open-license text search; check each work's license.",
+      "source_page": "https://fmhy.net/reading",
+      "source_file": "docs/reading.md",
+      "source_modified_at": "2026-10-28T15:13:33Z"
+    },
+    {
+      "name": "Standard Ebooks OPDS",
+      "url": "https://standardebooks.org/opds/all",
+      "type": "api",
+      "category": "books",
+      "unofficial": false,
+      "notes": "Curated public-domain EPUB catalogue; follow book colophons and license.",
+      "source_page": "https://fmhy.net/reading",
+      "source_file": "docs/reading.md",
+      "source_modified_at": "2026-10-28T15:13:33Z"
+    },
+    {
+      "name": "Open Library search",
+      "url": "https://openlibrary.org/search.json?q={query}&limit=20",
+      "type": "api",
+      "category": "books",
+      "unofficial": false,
+      "notes": "Metadata and official borrow links; respect lending and DRM.",
+      "source_page": "https://fmhy.net/reading",
+      "source_file": "docs/reading.md",
+      "source_modified_at": "2026-10-28T15:13:33Z"
+    },
+    {
+      "name": "Google Books API",
+      "url": "https://www.googleapis.com/books/v1/volumes?q={query}&country=MA",
+      "type": "api",
+      "category": "books",
+      "unofficial": false,
+      "notes": "Metadata and authorized previews; regional availability applies.",
+      "source_page": "https://fmhy.net/reading",
+      "source_file": "docs/reading.md",
+      "source_modified_at": "2026-10-28T15:13:33Z"
+    },
+    {
+      "name": "LibriVox API",
+      "url": "https://librivox.org/api/feed/audiobooks/?title={query}&format=json&extended=1&limit=50&offset=0",
+      "type": "api",
+      "category": "books",
+      "unofficial": false,
+      "notes": "Public-domain audiobook catalogue and official recordings; check local rights.",
+      "source_page": "https://fmhy.net/reading",
+      "source_file": "docs/reading.md",
+      "source_modified_at": "2026-10-28T15:13:33Z"
+    },
+    {
+      "name": "xkcd official JSON",
+      "url": "https://xkcd.com/info.0.json",
+      "type": "api",
+      "category": "comics",
+      "unofficial": false,
+      "notes": "Official webcomic metadata; comply with creator's license and attribution.",
+      "source_page": "https://fmhy.net/reading",
+      "source_file": "docs/reading.md",
+      "source_modified_at": "2026-10-28T15:13:33Z"
+    },
+    {
+      "name": "Internet Archive open comics",
+      "url": "https://archive.org/advancedsearch.php?q=mediatype%3Atexts+AND+subject%3Acomics+AND+licenseurl%3A%2Apublicdomain%2A&fl%5B%5D=identifier&fl%5B%5D=title&fl%5B%5D=licenseurl&rows=50&output=json",
+      "type": "api",
+      "category": "comics",
+      "unofficial": false,
+      "notes": "Public-domain-labelled catalogue; verify item rights and reader files.",
+      "source_page": "https://fmhy.net/reading",
+      "source_file": "docs/reading.md",
+      "source_modified_at": "2026-10-28T15:13:33Z"
+    },
+    {
+      "name": "Library of Congress comics",
+      "url": "https://www.loc.gov/search/?q=comic+books&fo=json",
+      "type": "api",
+      "category": "comics",
+      "unofficial": false,
+      "notes": "Official catalogue; digitized full issues and rights vary.",
+      "source_page": "https://fmhy.net/reading",
+      "source_file": "docs/reading.md",
+      "source_modified_at": "2026-10-28T15:13:33Z"
+    },
+    {
+      "name": "MusicBrainz recordings API",
+      "url": "https://musicbrainz.org/ws/2/recording/?query={query}&fmt=json",
+      "type": "api",
+      "category": "music",
+      "unofficial": false,
+      "notes": "Official metadata API; descriptive User-Agent and rate limits required.",
+      "source_page": "https://fmhy.net/audio",
+      "source_file": "docs/audio.md",
+      "source_modified_at": "2026-10-31T08:34:23Z"
+    },
+    {
+      "name": "Jamendo tracks API",
+      "url": "https://api.jamendo.com/v3.0/tracks/?client_id={CLIENT_ID}&format=json&search={query}",
+      "type": "api",
+      "category": "music",
+      "unofficial": false,
+      "notes": "Artist-published music; client ID required; check each track license.",
+      "source_page": "https://fmhy.net/audio",
+      "source_file": "docs/audio.md",
+      "source_modified_at": "2026-10-31T08:34:23Z"
+    },
+    {
+      "name": "Spotify Web API search",
+      "url": "https://api.spotify.com/v1/search?q={query}&type=track,album,artist,playlist",
+      "type": "api",
+      "category": "music",
+      "unofficial": false,
+      "notes": "OAuth-protected catalogue metadata; not a music-file download API.",
+      "source_page": "https://fmhy.net/audio",
+      "source_file": "docs/audio.md",
+      "source_modified_at": "2026-10-31T08:34:23Z"
+    },
+    {
+      "name": "Openverse audio",
+      "url": "https://api.openverse.org/v1/audio/?q={query}",
+      "type": "api",
+      "category": "music",
+      "unofficial": false,
+      "notes": "Open-license audio discovery; preserve creator, source and license.",
+      "source_page": "https://fmhy.net/audio",
+      "source_file": "docs/audio.md",
+      "source_modified_at": "2026-10-31T08:34:23Z"
+    },
+    {
+      "name": "Internet Archive open audio",
+      "url": "https://archive.org/advancedsearch.php?q=mediatype%3Aaudio+AND+licenseurl%3A%2Apublicdomain%2A&fl%5B%5D=identifier&fl%5B%5D=title&fl%5B%5D=licenseurl&rows=50&output=json",
+      "type": "api",
+      "category": "music",
+      "unofficial": false,
+      "notes": "Public-domain-labelled audio search; verify rights per item.",
+      "source_page": "https://fmhy.net/audio",
+      "source_file": "docs/audio.md",
+      "source_modified_at": "2026-10-31T08:34:23Z"
+    },
+    {
+      "name": "Steam app catalogue",
+      "url": "https://api.steampowered.com/ISteamApps/GetAppList/v2/",
+      "type": "api",
+      "category": "games",
+      "unofficial": false,
+      "notes": "Official app list; acquisition and downloads require Steam entitlement.",
+      "source_page": "https://fmhy.net/gaming",
+      "source_file": "docs/gaming.md",
+      "source_modified_at": "2026-10-30T09:58:47Z"
+    },
+    {
+      "name": "IGDB games API",
+      "url": "https://api.igdb.com/v4/games",
+      "type": "api",
+      "category": "games",
+      "unofficial": false,
+      "notes": "Requires Twitch client credentials; metadata only.",
+      "source_page": "https://fmhy.net/gaming",
+      "source_file": "docs/gaming.md",
+      "source_modified_at": "2026-10-30T09:58:47Z"
+    },
+    {
+      "name": "RAWG games API",
+      "url": "https://api.rawg.io/api/games?search={query}&key={API_KEY}",
+      "type": "api",
+      "category": "games",
+      "unofficial": false,
+      "notes": "API key required; metadata and store links only.",
+      "source_page": "https://fmhy.net/gaming",
+      "source_file": "docs/gaming.md",
+      "source_modified_at": "2026-10-30T09:58:47Z"
+    },
+    {
+      "name": "GitHub open-source games search",
+      "url": "https://api.github.com/search/repositories?q=topic%3Aopen-source-game&sort=stars&order=desc",
+      "type": "api",
+      "category": "games",
+      "unofficial": false,
+      "notes": "Find source repositories; inspect project and asset licenses before use.",
+      "source_page": "https://fmhy.net/gaming",
+      "source_file": "docs/gaming.md",
+      "source_modified_at": "2026-10-30T09:58:47Z"
+    },
+    {
+      "name": "F-Droid repository index",
+      "url": "https://f-droid.org/repo/index-v2.json",
+      "type": "api",
+      "category": "software",
+      "unofficial": false,
+      "notes": "Signed Android app repository metadata; verify signatures and install through F-Droid.",
+      "source_page": "https://fmhy.net/downloading",
+      "source_file": "docs/downloading.md",
+      "source_modified_at": "2026-10-31T08:34:23Z"
+    },
+    {
+      "name": "WinGet package manifests",
+      "url": "https://github.com/microsoft/winget-pkgs",
+      "type": "api",
+      "category": "software",
+      "unofficial": false,
+      "notes": "Official package manifest repository; install with WinGet and verify publisher.",
+      "source_page": "https://fmhy.net/downloading",
+      "source_file": "docs/downloading.md",
+      "source_modified_at": "2026-10-31T08:34:23Z"
+    },
+    {
+      "name": "Homebrew Formulae API",
+      "url": "https://formulae.brew.sh/api/formula.json",
+      "type": "api",
+      "category": "software",
+      "unofficial": false,
+      "notes": "Official package metadata; install through Homebrew.",
+      "source_page": "https://fmhy.net/downloading",
+      "source_file": "docs/downloading.md",
+      "source_modified_at": "2026-10-31T08:34:23Z"
+    },
+    {
+      "name": "GitHub Releases API",
+      "url": "https://api.github.com/repos/{owner}/{repo}/releases",
+      "type": "api",
+      "category": "software",
+      "unofficial": false,
+      "notes": "Official release metadata; verify project identity, signatures and checksums.",
+      "source_page": "https://fmhy.net/downloading",
+      "source_file": "docs/downloading.md",
+      "source_modified_at": "2026-10-31T08:34:23Z"
+    },
+    {
+      "name": "Software Heritage API",
+      "url": "https://archive.softwareheritage.org/api/1/",
+      "type": "api",
+      "category": "software",
+      "unofficial": false,
+      "notes": "Source-code preservation API; check original project license.",
+      "source_page": "https://fmhy.net/downloading",
+      "source_file": "docs/downloading.md",
+      "source_modified_at": "2026-10-31T08:34:23Z"
+    },
+    {
+      "name": "No-Intro",
+      "url": "https://no-intro.org/",
+      "type": "scrape",
+      "category": "roms",
+      "unofficial": true,
+      "notes": "Community-maintained cartridge and related ROM hash database; useful for identification and verification, not a commercial ROM download host.",
+      "source_page": "https://fmhy.net/gaming",
+      "source_file": "docs/gaming.md",
+      "source_modified_at": "2026-10-30T09:58:47Z"
+    },
+    {
+      "name": "Redump",
+      "url": "https://redump.info/",
+      "type": "scrape",
+      "category": "roms",
+      "unofficial": true,
+      "notes": "Community-maintained optical-disc dump hash database; useful for verifying disc images, not an ISO download host.",
+      "source_page": "https://fmhy.net/gaming",
+      "source_file": "docs/gaming.md",
+      "source_modified_at": "2026-10-30T09:58:47Z"
+    },
+    {
+      "name": "Homebrew Hub",
+      "url": "https://hh.gbdev.io/",
+      "type": "direct_download",
+      "category": "roms",
+      "unofficial": true,
+      "notes": "Creator-made homebrew ROMs for supported retro platforms, including NES and Game Boy; not commercial game dumps.",
+      "source_page": "https://fmhy.net/gaming",
+      "source_file": "docs/gaming.md",
+      "source_modified_at": "2026-10-30T09:58:47Z"
+    }
+  ]
+}

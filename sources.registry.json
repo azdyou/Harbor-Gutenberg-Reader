@@ -669,14 +669,15 @@
     ]
   },
   "fmhy_research": {
-    "source": "FMHY (Free Media Heck Yeah) index",
+    "source": "FMHY official wiki source repository (fmhy/edit)",
     "reviewed_on": "2026-10-31",
     "sections": {
-      "movies_tv": "https://fmhy.net/video",
-      "anime": "https://fmhy.net/video",
+      "movies_tv_anime": "https://fmhy.net/video",
       "books_comics": "https://fmhy.net/reading",
       "music_audiobooks": "https://fmhy.net/audio",
-      "games_software": "https://fmhy.net/gaming-tools"
+      "games_roms": "https://fmhy.net/gaming",
+      "software": "https://fmhy.net/downloading",
+      "gaming_tools": "https://fmhy.net/gaming-tools"
     },
     "entry_fields": [
       "name",
@@ -700,11 +701,51 @@
       "comics",
       "music",
       "games",
-      "software"
+      "software",
+      "roms"
     ],
-    "scope_note": "This subset covers official APIs, public-domain/open-license catalogues, authorized previews and official package/release metadata. It excludes unauthorized copies and download/magnet endpoints.",
-    "harbor_note": "Registry candidates are not ready-made Harbor extensions. Video uses the Stremio add-on protocol; manga and ebooks require their native plugin interfaces; other types need suitable catalogues or players.",
-    "verification_note": "Provider endpoints and catalogue capabilities should be rechecked before production. This registry update does not claim live Harbor execution testing."
+    "scope_note": "Curated, rights-filtered subset of FMHY-referenced sources: official APIs, public-domain/open-license catalogues, authorized previews, official package/release metadata, ROM verification databases, and creator-made homebrew. It excludes unauthorized copyrighted-content mirrors, magnet feeds, and direct-download piracy endpoints.",
+    "harbor_note": "Registry candidates are not automatically installable Harbor extensions. Video uses the Stremio addon protocol; manga and ebooks require their native plugin interfaces; ROM verification and general catalogues are references rather than Harbor readers.",
+    "verification_note": "Upstream FMHY Markdown pages were fetched from the official fmhy/edit repository. Page modification timestamps are recorded per file. Harbor upload/pull verification was not performed in this environment.",
+    "source_repository": "https://github.com/fmhy/edit",
+    "upstream_files": [
+      {
+        "path": "docs/video.md",
+        "url": "https://raw.githubusercontent.com/fmhy/edit/main/docs/video.md",
+        "page": "https://fmhy.net/video",
+        "modified_at": "2026-10-31T08:34:23Z"
+      },
+      {
+        "path": "docs/reading.md",
+        "url": "https://raw.githubusercontent.com/fmhy/edit/main/docs/reading.md",
+        "page": "https://fmhy.net/reading",
+        "modified_at": "2026-10-28T15:13:33Z"
+      },
+      {
+        "path": "docs/audio.md",
+        "url": "https://raw.githubusercontent.com/fmhy/edit/main/docs/audio.md",
+        "page": "https://fmhy.net/audio",
+        "modified_at": "2026-10-31T08:34:23Z"
+      },
+      {
+        "path": "docs/gaming.md",
+        "url": "https://raw.githubusercontent.com/fmhy/edit/main/docs/gaming.md",
+        "page": "https://fmhy.net/gaming",
+        "modified_at": "2026-10-30T09:58:47Z"
+      },
+      {
+        "path": "docs/downloading.md",
+        "url": "https://raw.githubusercontent.com/fmhy/edit/main/docs/downloading.md",
+        "page": "https://fmhy.net/downloading",
+        "modified_at": "2026-10-31T08:34:23Z"
+      },
+      {
+        "path": "docs/gaming-tools.md",
+        "url": "https://raw.githubusercontent.com/fmhy/edit/main/docs/gaming-tools.md",
+        "page": "https://fmhy.net/gaming-tools",
+        "modified_at": "2026-10-30T09:58:47Z"
+      }
+    ]
   },
   "fmhy_entries": [
     {
@@ -970,6 +1011,30 @@
       "category": "software",
       "unofficial": false,
       "notes": "Source-code preservation API; check original project license."
+    },
+    {
+      "name": "No-Intro",
+      "url": "https://no-intro.org/",
+      "type": "scrape",
+      "category": "roms",
+      "unofficial": true,
+      "notes": "Community-maintained cartridge and related ROM hash database; useful for identification and verification, not a commercial ROM download host."
+    },
+    {
+      "name": "Redump",
+      "url": "https://redump.info/",
+      "type": "scrape",
+      "category": "roms",
+      "unofficial": true,
+      "notes": "Community-maintained optical-disc dump hash database; useful for verifying disc images, not an ISO download host."
+    },
+    {
+      "name": "Homebrew Hub",
+      "url": "https://hh.gbdev.io/",
+      "type": "direct_download",
+      "category": "roms",
+      "unofficial": true,
+      "notes": "Creator-made homebrew ROMs for supported retro platforms, including NES and Game Boy; not commercial game dumps."
     }
   ]
 }
