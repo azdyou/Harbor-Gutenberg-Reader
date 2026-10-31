@@ -45,6 +45,15 @@
       "nsfw": false,
       "icon": "https://archive.org/favicon.ico",
       "entry": "archive-comics.plugin.js"
+    },
+    {
+      "id": "xkcd-comics",
+      "name": "xkcd — Webcomic Archive",
+      "version": "1.0.0",
+      "lang": "en",
+      "nsfw": false,
+      "icon": "https://xkcd.com/s/0b7742.png",
+      "entry": "xkcd.plugin.js"
     }
   ]
 }
